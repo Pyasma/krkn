@@ -12,7 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import logging
+
+
 class TeeLogHandler(logging.Handler):
+    """
+    Logging handler that captures log records in memory for later retrieval
+    as a single formatted string. Useful for generating JUnit test output.
+    """
     logs: list[str] = []
     name = "TeeLogHandler"
 
@@ -21,5 +27,9 @@ class TeeLogHandler(logging.Handler):
 
     def emit(self, record):
         self.logs.append(self.formatter.format(record))
+
+    def clear(self):
+        self.logs.clear()
+
     def __del__(self):
         pass
